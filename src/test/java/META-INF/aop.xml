@@ -1,0 +1,12 @@
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" 
+       "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+
+<aspectj>
+    <weaver>
+           <include within = "com.liangchuan.AOP.AspectJ.*" />
+    </weaver>
+           
+    <aspects>
+        <aspect name = "com.liangchuan.AOP.AspectJ.ComplexCachingAspect"/>
+    </aspects>
+</aspectj>

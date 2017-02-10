@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:p = "http://www.springframework.org/schema/p"
+   xmlns:context = "http://www.springframework.org/schema/context"
+   xmlns:task = "http://www.springframework.org/schema/task"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+                       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                       http://www.springframework.org/schema/context
+                       http://www.springframework.org/schema/context/spring-context-3.0.xsd   
+                       http://www.springframework.org/schema/task
+                       http://www.springframework.org/schema/task/spring-task-4.0.xsd                    
+                       ">
+     
+     <context:annotation-config />
+     
+     <task:executor id="executor" pool-size="5"  />  
+     <task:annotation-driven executor="executor"/>  
+     
+     <bean id = "runTask" class = "org.liangchuan.taskExecutor.DemoRunnable"/>
+     <bean id = "callTask" class = "org.liangchuan.taskExecutor.DemoCallable"/>
+
+     
+     <bean id = "concurrentTaskScheduler" class = "org.springframework.scheduling.concurrent.ConcurrentTaskScheduler">
+         <constructor-arg>
+             <bean class = "java.util.concurrent.Executors"  factory-method = "newScheduledThreadPool" >
+                 <constructor-arg  value = "5" />
+             </bean>
+         </constructor-arg>
+     </bean>
+     
+     <bean id = "taskExecutorAdapter" class = "org.springframework.core.task.support.TaskExecutorAdapter">
+       <constructor-arg>
+       <bean class = "java.util.concurrent.Executors"  factory-method = "newCachedThreadPool"/>
+       </constructor-arg>
+     </bean>
+     
+     <bean id = "simpleAsyncTaskExecutor" class ="org.springframework.core.task.SimpleAsyncTaskExecutor"
+     p:daemon = "false" /> 
+     
+     <bean id = "syncTaskExecutor" class = "org.springframework.core.task.SyncTaskExecutor"/>
+     
+     <bean id = "springTaskDemo" class = "org.liangchuan.taskExecutor.SpringExecutorDemo"/>
+</beans>
